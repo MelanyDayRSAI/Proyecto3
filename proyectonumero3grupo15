@@ -1,0 +1,109 @@
+import tkinter as tk
+from tkinter import scrolledtext as st
+import sys
+from tkinter import filedialog as fd
+from tkinter import messagebox as mb
+from tkinter import *
+
+class Aplicacion:
+    def __init__(self):
+        self.ventana1=Tk()
+        self.agregar_menu()
+        self.ventana1.title("El Grupo de los Puchurrumi")
+        self.ventana1.iconbitmap("l6.ico")
+        imagen= PhotoImage(file="a12.png")
+        background= Label(image=imagen, text="imagen de fondo")
+        background.place(x=0,y=0, relwidth=1, relheight=1)  
+        self.scrolledtext1=st.ScrolledText(self.ventana1, width=70, height=20)
+        self.scrolledtext1.grid(column=0,row=0, padx=10, pady=10)    
+        self.ventana1.mainloop()
+    def agregar_menu(self):
+        menubar1 = tk.Menu(self.ventana1)
+        self.ventana1.config(menu=menubar1)
+        opciones1 = tk.Menu(menubar1, tearoff=0)
+        opciones1.add_command(label="Guardar", command=self.guardar)
+        opciones1.add_command(label="Guardar como", command=self.guardarcomo)
+        opciones1.add_separator()
+        opciones1.add_command(label="Abrir", command=self.abrir)
+        opciones1.add_separator()
+        opciones1.add_command(label="Salir", command=self.salir)
+        menubar1.add_cascade(label="Archivo", menu=opciones1)
+        
+        opciones2 = tk.Menu(menubar1, tearoff=0)
+        opciones2.add_command(label="Desechar", command=self.desechar)
+        opciones2.add_command(label="Rehacer", command=self.rehacer)
+        menubar1.add_cascade(label="Editar", menu=opciones2) 
+        
+        opciones3 = tk.Menu(menubar1, tearoff=0)
+        opciones3.add_command(label="Información",command=donothing)
+        opciones3.add_command(label="Manual de usuario", command=informacion)
+        opciones3.add_separator()
+        opciones3.add_command(label="Integrantes", command=grupo)
+        menubar1.add_cascade(label="Ayuda", menu=opciones3) 
+         
+    def salir(self):
+        sys.exit()
+
+    def guardar(self):
+        nombrearch=fd.asksaveasfilename(initialdir = "/",title = "Guardar como",filetypes = (("txt","*.txt"),("todos los archivos","*.*")))
+        if nombrearch!='':
+            archi1=open(nombrearch, "w", encoding="utf-8")
+            archi1.write(self.scrolledtext1.get("1.0", tk.END))
+            archi1.close()
+            mb.showinfo("Información", "Los datos fueron guardados en el archivo.")
+    
+    def guardarcomo(self):
+        nombrearch=fd.asksaveasfilename(initialdir = "/",title = "Guardar como",filetypes = (("txt","*.txt"),("Word","*.doc"),("python","*.py"),("PDF","*.pdf"),("todos los archivos","*.*")))
+        if nombrearch!='':
+            archi1=open(nombrearch, "w", encoding="utf-8")
+            archi1.write(self.scrolledtext1.get("1.0", tk.END))
+            archi1.close()
+            mb.showinfo("Información", "Los datos fueron guardados en el archivo.")       
+
+    def abrir(self):
+        nombrearch=fd.askopenfilename(initialdir = "/",title = "Seleccione archivo",filetypes = (("txt files","*.txt"),("todos los archivos","*.*")))
+        if nombrearch!='':
+            archi1=open(nombrearch, "r", encoding="utf-8")
+            contenido=archi1.read()
+            archi1.close()
+            self.scrolledtext1.delete("1.0", tk.END) 
+            self.scrolledtext1.insert("1.0", contenido)
+
+    def desechar(self):
+        self.tk.call(self, 'edit', 'undo')
+        return 'break'
+
+    def rehacer(self):
+        self.tk.call(self, 'edit', 'redo')
+        return 'break'
+            
+def donothing():
+   filewin = Toplevel()
+   mensaje=Label(filewin,text="Con nuestro grupo presentamos una serie de ventanas")
+   mensaje1=Label(filewin,text="El cual realiza las funciones de, Guardar, guardar como, salir, abrir")
+   mensaje2=Label(filewin,text="desaser, rehacer, muestra el menu de archivo, editar, ayuda")
+   mensaje.pack()
+   mensaje1.pack()
+  
+def informacion():  
+  filewin = Toplevel()
+  mensaje=Label(filewin,text="El codigo es:")
+  mensaje1=Label(filewin,text="https://docs.google.com/presentation/d/1kCFwjP417HdUcOBInjniFj0cQU1MMJaG/edit?usp=share_link&ouid=111189707821045144901&rtpof=true&sd=true")
+  mensaje2=Label(filewin, text="https://github.com/MelanyDayRSAI/Proyecto3.git")
+  mensaje.pack()
+  mensaje1.pack()
+  mensaje2.pack()
+  
+def grupo():  
+  filewin = Toplevel()
+  mensaje=Label(filewin,text="Nuestro grupo se conforma por los siguientes alumnos")
+  mensaje1=Label(filewin,text="MELANY ROMERO SAMAYOA")
+  mensaje2=Label(filewin,text="BRANDON STEEVEN RODRIGUEZ BLANCO")
+  mensaje3=Label(filewin,text="JONATAN STEVEN ORELLANA SIMITE")
+  mensaje.pack()
+  mensaje1.pack()
+  mensaje2.pack() 
+  mensaje3.pack()   
+  
+          
+aplicacion1=Aplicacion() 
